@@ -39,49 +39,56 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
   return (
     <div
       className={cn(
-        "border rounded-lg overflow-hidden bg-white shadow-sm transition-all duration-300",
+        "border rounded-lg overflow-hidden bg-white shadow-sm transition-all duration-300 flex flex-col",
         className
       )}
     >
-      <div className="h-full flex flex-col">
-        <div className="bg-app-light-gray/50 px-4 py-2.5 border-b flex items-center justify-between">
-          <h3 className="text-sm font-medium text-muted-foreground">
-            {testRunning 
-              ? 'Test Browser' 
-              : (selectedFile ? selectedFile.name : 'Loading Preview...')}
-          </h3>
-        </div>
-        
-        <div className="flex-1 p-0 overflow-hidden relative">
-          {loading ? (
-            <div className="flex flex-col items-center justify-center h-full p-6 space-y-4">
-              <div className="animate-spin">
-                <Loader className="h-10 w-10 text-primary" />
-              </div>
-              <p className="text-sm text-muted-foreground mt-4">
-                Planner agent is working, or generating queries...
-              </p>
+      <div className="bg-app-light-gray/50 px-4 py-2.5 border-b flex items-center justify-between">
+        <h3 className="text-sm font-medium text-muted-foreground">
+          {testRunning 
+            ? 'Test Browser' 
+            : (selectedFile ? selectedFile.name : 'Loading Preview...')}
+        </h3>
+      </div>
+      
+      <div className="flex-1 p-0 overflow-hidden relative w-full h-full">
+        {loading ? (
+          <div className="flex flex-col items-center justify-center h-full p-6 space-y-4">
+            <div className="animate-spin">
+              <Loader className="h-10 w-10 text-primary" />
             </div>
-          ) : testRunning && testUrl ? (
-            <Scale show={showContent}>
-              <div className="w-full h-full">
-                <iframe 
-                  src={testUrl}
-                  className="w-full h-full border-0"
-                  style={{ width: '100%', height: '100%', display: 'block' }}
-                  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                  title="Test Browser"
-                />
-              </div>
-            </Scale>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full">
-              <p className="text-muted-foreground">
-                {selectedFile ? 'Preview not available' : 'Select a file or run a test to see preview'}
-              </p>
+            <p className="text-sm text-muted-foreground mt-4">
+              Planner agent is working, or generating queries...
+            </p>
+          </div>
+        ) : testRunning && testUrl ? (
+          <Scale show={showContent} className="w-full h-full">
+            <div className="absolute inset-0 w-full h-full">
+              <iframe 
+                src={testUrl}
+                className="w-full h-full border-0"
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  display: 'block',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0
+                }}
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                title="Test Browser"
+              />
             </div>
-          )}
-        </div>
+          </Scale>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full">
+            <p className="text-muted-foreground">
+              {selectedFile ? 'Preview not available' : 'Select a file or run a test to see preview'}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

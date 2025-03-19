@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import FileUpload from '@/components/FileUpload';
 import FileList from '@/components/FileList';
@@ -103,10 +104,10 @@ const Index = () => {
 
   const embeddedWindowClasses = isMobile
     ? "h-[400px]"
-    : "h-[calc(100vh-40px)]";
+    : "h-[calc(100vh-40px)] flex flex-col";
 
   return (
-    <Scale show={true} duration={500} className="antialiased">
+    <Scale show={true} duration={500} className="antialiased h-screen">
       <div className={containerClasses}>
         {/* Left Panel - File Upload & List */}
         <div className="flex flex-col">
