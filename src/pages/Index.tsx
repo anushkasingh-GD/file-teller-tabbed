@@ -36,6 +36,11 @@ const Index = () => {
   const [testUrl, setTestUrl] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
+  // Define selectedFile based on selectedFileId
+  const selectedFile = selectedFileId 
+    ? files.find(file => file.id === selectedFileId) || null 
+    : null;
+
   const handleFileUpload = (file: File) => {
     const fileId = Date.now().toString();
     const reader = new FileReader();
