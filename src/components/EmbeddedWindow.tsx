@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Scale } from './transitions';
 import { Skeleton } from './ui/skeleton';
 import { Progress } from './ui/progress';
+import { Loader } from 'lucide-react';
 
 interface EmbeddedWindowProps {
   selectedFile: { id: string; name: string; content?: string } | null;
@@ -54,12 +55,11 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
         <div className="flex-1 p-0 overflow-auto relative">
           {loading ? (
             <div className="flex flex-col items-center justify-center h-full p-6 space-y-4">
-              <Skeleton className="h-4 w-2/3 mb-2" />
-              <Skeleton className="h-4 w-1/2 mb-2" />
-              <Skeleton className="h-4 w-3/4 mb-2" />
-              <Progress value={45} className="w-4/5 h-2 mt-4" />
+              <div className="animate-spin">
+                <Loader className="h-10 w-10 text-primary" />
+              </div>
               <p className="text-sm text-muted-foreground mt-4">
-                Loading preview...
+                Planner agent is working, or generating queries...
               </p>
             </div>
           ) : testRunning && testUrl ? (
