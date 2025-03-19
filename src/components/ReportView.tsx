@@ -20,7 +20,6 @@ const ReportView: React.FC<ReportViewProps> = ({ className }) => {
   // Calculate summary statistics
   const totalTests = testResults.length;
   const passedTests = testResults.filter(test => test.status === 'passed').length;
-  const failedTests = testResults.filter(test => test.status === 'failed').length;
   const passRate = Math.round((passedTests / totalTests) * 100);
 
   const getStatusIcon = (status: string) => {
@@ -44,23 +43,11 @@ const ReportView: React.FC<ReportViewProps> = ({ className }) => {
           </p>
         </div>
         
-        {/* Summary cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <div className="bg-slate-50 p-4 rounded-lg">
-            <p className="text-muted-foreground text-xs uppercase font-medium">Total Tests</p>
-            <p className="text-2xl font-bold">{totalTests}</p>
-          </div>
-          <div className="bg-green-50 p-4 rounded-lg">
-            <p className="text-muted-foreground text-xs uppercase font-medium">Passed</p>
-            <p className="text-2xl font-bold text-green-600">{passedTests}</p>
-          </div>
-          <div className="bg-red-50 p-4 rounded-lg">
-            <p className="text-muted-foreground text-xs uppercase font-medium">Failed</p>
-            <p className="text-2xl font-bold text-red-600">{failedTests}</p>
-          </div>
-          <div className="bg-slate-50 p-4 rounded-lg">
-            <p className="text-muted-foreground text-xs uppercase font-medium">Pass Rate</p>
-            <p className="text-2xl font-bold">{passRate}%</p>
+        {/* Pass rate card */}
+        <div className="flex justify-center">
+          <div className="bg-slate-50 p-4 rounded-lg w-full max-w-xs">
+            <p className="text-muted-foreground text-xs uppercase font-medium text-center">Pass Rate</p>
+            <p className="text-3xl font-bold text-center">{passRate}%</p>
           </div>
         </div>
         
