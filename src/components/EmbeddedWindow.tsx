@@ -52,7 +52,7 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
           </h3>
         </div>
         
-        <div className="flex-1 p-0 overflow-auto relative">
+        <div className="flex-1 p-0 overflow-hidden relative">
           {loading ? (
             <div className="flex flex-col items-center justify-center h-full p-6 space-y-4">
               <div className="animate-spin">
@@ -64,12 +64,15 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
             </div>
           ) : testRunning && testUrl ? (
             <Scale show={showContent}>
-              <iframe 
-                src={testUrl}
-                className="w-full h-full border-0"
-                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                title="Test Browser"
-              />
+              <div className="w-full h-full">
+                <iframe 
+                  src={testUrl}
+                  className="w-full h-full border-0"
+                  style={{ width: '100%', height: '100%', display: 'block' }}
+                  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                  title="Test Browser"
+                />
+              </div>
             </Scale>
           ) : (
             <div className="flex flex-col items-center justify-center h-full">
