@@ -2,6 +2,8 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Scale } from './transitions';
+import { Skeleton } from './ui/skeleton';
+import { Progress } from './ui/progress';
 
 interface EmbeddedWindowProps {
   selectedFile: { id: string; name: string; content?: string } | null;
@@ -17,12 +19,16 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
   testUrl,
 }) => {
   const [showContent, setShowContent] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   
   React.useEffect(() => {
     setShowContent(false);
+    setLoading(true);
+    
     const timer = setTimeout(() => {
       if (selectedFile || testRunning) {
         setShowContent(true);
+        setLoading(false);
       }
     }, 300);
     
@@ -41,12 +47,22 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
           <h3 className="text-sm font-medium text-muted-foreground">
             {testRunning 
               ? 'Test Browser' 
-              : (selectedFile ? selectedFile.name : 'Embedded Window')}
+              : (selectedFile ? selectedFile.name : 'Loading Preview...')}
           </h3>
         </div>
         
         <div className="flex-1 p-0 overflow-auto relative">
-          {testRunning && testUrl ? (
+          {loading ? (
+            <div className="flex flex-col items-center justify-center h-full p-6 space-y-4">
+              <Skeleton className="h-4 w-2/3 mb-2" />
+              <Skeleton className="h-4 w-1/2 mb-2" />
+              <Skeleton className="h-4 w-3/4 mb-2" />
+              <Progress value={45} className="w-4/5 h-2 mt-4" />
+              <p className="text-sm text-muted-foreground mt-4">
+                Loading preview...
+              </p>
+            </div>
+          ) : testRunning && testUrl ? (
             <Scale show={showContent}>
               <iframe 
                 src={testUrl}
@@ -55,22 +71,10 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
                 title="Test Browser"
               />
             </Scale>
-          ) : selectedFile && !testRunning ? (
-            <Scale show={showContent}>
-              <div className="prose prose-sm max-w-none p-6">
-                {selectedFile.content || (
-                  <div className="flex flex-col items-center justify-center h-full">
-                    <p className="text-muted-foreground text-center">
-                      No content to display for this file.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </Scale>
           ) : (
             <div className="flex flex-col items-center justify-center h-full">
               <p className="text-muted-foreground">
-                Select a file to view its content or run a test
+                {selectedFile ? 'Preview not available' : 'Select a file or run a test to see preview'}
               </p>
             </div>
           )}
