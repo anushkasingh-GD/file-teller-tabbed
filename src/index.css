@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 210 100% 50%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -22,7 +23,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
+    --accent: 210 100% 50%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -35,20 +36,15 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
   .dark {
@@ -97,5 +93,61 @@
 
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/20 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/30;
+  }
+}
+
+@layer components {
+  .file-item {
+    @apply relative overflow-hidden transition-all duration-200 ease-in-out cursor-pointer;
+  }
+  
+  .file-item::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-[2px] bg-app-blue transition-all duration-300 ease-in-out;
+  }
+  
+  .file-item:hover::after {
+    @apply w-full;
+  }
+  
+  .test-item {
+    @apply relative overflow-hidden;
+  }
+  
+  .test-item::before {
+    content: '';
+    @apply absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-app-blue opacity-0 transition-all duration-200 ease-in-out;
+  }
+  
+  .test-item:hover::before {
+    @apply opacity-100;
+  }
+  
+  .tab-underline {
+    @apply absolute bottom-0 left-0 h-[2px] bg-app-blue transition-all duration-300 ease-in-out;
+    width: 0;
+  }
+  
+  .tab-active .tab-underline {
+    width: 100%;
   }
 }
