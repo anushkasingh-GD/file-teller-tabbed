@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Slide } from './transitions';
+import { Play } from 'lucide-react';
 
 interface Test {
   id: string;
@@ -12,6 +12,7 @@ interface TestListProps {
   tests: Test[];
   selectedTestId: string | null;
   onTestSelect: (testId: string) => void;
+  onTestRun?: (testId: string) => void;
   className?: string;
 }
 
@@ -19,38 +20,39 @@ const TestList: React.FC<TestListProps> = ({
   tests,
   selectedTestId,
   onTestSelect,
+  onTestRun,
   className,
 }) => {
   return (
     <div className={cn("space-y-2", className)}>
-      {tests.length === 0 ? (
-        <div className="text-muted-foreground text-sm py-4 px-2 text-center">
-          No tests available
-        </div>
-      ) : (
-        <ul className="space-y-1.5">
-          {tests.map((test, index) => (
-            <Slide
-              key={test.id}
-              show={true}
-              direction="right"
-              duration={300 + index * 50}
+      {tests.map((test) => (
+        <div
+          key={test.id}
+          className={cn(
+            "group flex items-center justify-between p-2 rounded-md transition-colors duration-200 hover:bg-muted test-item",
+            selectedTestId === test.id
+              ? "bg-muted"
+              : "bg-transparent"
+          )}
+        >
+          <button
+            onClick={() => onTestSelect(test.id)}
+            className="flex-1 text-left text-sm"
+          >
+            {test.name}
+          </button>
+          
+          {onTestRun && (
+            <button
+              onClick={() => onTestRun(test.id)}
+              className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-full hover:bg-muted-foreground/10"
+              title="Run test"
             >
-              <li
-                onClick={() => onTestSelect(test.id)}
-                className={cn(
-                  "test-item group flex items-center py-1.5 px-3 rounded-md text-sm cursor-pointer",
-                  selectedTestId === test.id
-                    ? "bg-app-light-gray text-app-blue pl-6"
-                    : "hover:bg-app-light-gray/50 pl-6 hover:pl-6"
-                )}
-              >
-                <span className="truncate">{test.name}</span>
-              </li>
-            </Slide>
-          ))}
-        </ul>
-      )}
+              <Play className="h-3 w-3 text-muted-foreground" />
+            </button>
+          )}
+        </div>
+      ))}
     </div>
   );
 };

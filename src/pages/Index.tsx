@@ -20,11 +20,20 @@ const sampleTests = [
   { id: 'test3', name: 'Test 3' },
 ];
 
+// This would be replaced with actual Playwright test URLs
+const testUrls = {
+  test1: 'https://example.com/test1',
+  test2: 'https://example.com/test2',
+  test3: 'https://example.com/test3',
+};
+
 const Index = () => {
   const [files, setFiles] = useState<Array<{ id: string; name: string; content?: string }>>([]);
   const [selectedFileId, setSelectedFileId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('tests');
   const [selectedTestId, setSelectedTestId] = useState<string | null>(null);
+  const [testRunning, setTestRunning] = useState(false);
+  const [testUrl, setTestUrl] = useState<string | null>(null);
   const isMobile = useIsMobile();
 
   const handleFileUpload = (file: File) => {
@@ -50,7 +59,10 @@ const Index = () => {
   };
 
   const handleFileSelect = (fileId: string) => {
-    setSelectedFileId(fileId);
+    // Only allow file selection when no test is running
+    if (!testRunning) {
+      setSelectedFileId(fileId);
+    }
   };
 
   const handleTabChange = (tabId: string) => {
@@ -61,9 +73,20 @@ const Index = () => {
     setSelectedTestId(testId);
   };
 
-  const selectedFile = selectedFileId
-    ? files.find((file) => file.id === selectedFileId) || null
-    : null;
+  const handleTestRun = (testId: string) => {
+    // This would be replaced with actual Playwright test execution logic
+    setTestRunning(true);
+    setTestUrl(testUrls[testId as keyof typeof testUrls]);
+    
+    // Clear selected file when running a test
+    setSelectedFileId(null);
+    
+    // For demo purposes, we'll stop the "test" after 30 seconds
+    setTimeout(() => {
+      setTestRunning(false);
+      setTestUrl(null);
+    }, 30000);
+  };
 
   // Layout adjustments based on screen size
   const containerClasses = isMobile
@@ -96,6 +119,8 @@ const Index = () => {
         {/* Middle Panel - Embedded Window */}
         <EmbeddedWindow 
           selectedFile={selectedFile}
+          testRunning={testRunning}
+          testUrl={testUrl || undefined}
           className={embeddedWindowClasses}
         />
 
@@ -115,6 +140,7 @@ const Index = () => {
                   tests={sampleTests}
                   selectedTestId={selectedTestId}
                   onTestSelect={handleTestSelect}
+                  onTestRun={handleTestRun}
                   className="h-full overflow-y-auto pr-2"
                 />
               )}
