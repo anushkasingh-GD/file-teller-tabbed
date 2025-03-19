@@ -55,7 +55,7 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
                 title="Test Browser"
               />
             </Scale>
-          ) : selectedFile ? (
+          ) : selectedFile && !testRunning ? (
             <Scale show={showContent}>
               <div className="prose prose-sm max-w-none p-6">
                 {selectedFile.content || (
