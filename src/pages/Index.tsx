@@ -20,11 +20,11 @@ const sampleTests = [
   { id: 'test3', name: 'Test 3' },
 ];
 
-// This would be replaced with actual Playwright test URLs
+// Using a more reliable test URL for debugging purposes
 const testUrls = {
-  test1: 'https://example.com/test1',
-  test2: 'https://example.com/test2',
-  test3: 'https://example.com/test3',
+  test1: 'https://example.com',
+  test2: 'https://google.com',
+  test3: 'https://bing.com',
 };
 
 const Index = () => {
@@ -82,14 +82,19 @@ const Index = () => {
     // Clear selected file when running a test
     setSelectedFileId(null);
     
+    console.log(`Running test: ${testId}`);
+    
     // Set test running and URL
     setTestRunning(true);
-    setTestUrl(testUrls[testId as keyof typeof testUrls]);
+    const url = testUrls[testId as keyof typeof testUrls];
+    setTestUrl(url);
+    console.log(`Setting test URL to: ${url}`);
     
     // For demo purposes, we'll stop the "test" after 30 seconds
     setTimeout(() => {
       setTestRunning(false);
       setTestUrl(null);
+      console.log("Test stopped");
     }, 30000);
   };
 

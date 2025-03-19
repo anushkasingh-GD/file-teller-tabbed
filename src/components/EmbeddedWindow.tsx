@@ -36,6 +36,11 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
     return () => clearTimeout(timer);
   }, [selectedFile, testRunning]);
 
+  console.log("Test running:", testRunning);
+  console.log("Test URL:", testUrl);
+  console.log("Show content:", showContent);
+  console.log("Loading:", loading);
+
   return (
     <div
       className={cn(
@@ -51,7 +56,7 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
         </h3>
       </div>
       
-      <div className="flex-1 p-0 overflow-hidden relative w-full h-full">
+      <div className="flex-1 p-0 relative w-full h-full">
         {loading ? (
           <div className="flex flex-col items-center justify-center h-full p-6 space-y-4">
             <div className="animate-spin">
@@ -62,26 +67,19 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
             </p>
           </div>
         ) : testRunning && testUrl ? (
-          <Scale show={showContent} className="w-full h-full">
-            <div className="absolute inset-0 w-full h-full">
-              <iframe 
-                src={testUrl}
-                className="w-full h-full border-0"
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  display: 'block',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0
-                }}
-                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-                title="Test Browser"
-              />
-            </div>
-          </Scale>
+          <div className="w-full h-full absolute inset-0">
+            <iframe 
+              src={testUrl}
+              className="w-full h-full border-0"
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                display: 'block'
+              }}
+              sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              title="Test Browser"
+            />
+          </div>
         ) : (
           <div className="flex flex-col items-center justify-center h-full">
             <p className="text-muted-foreground">
