@@ -70,7 +70,7 @@ const EmbeddedWindow: React.FC<EmbeddedWindowProps> = ({
           ) : (
             <div className="flex flex-col items-center justify-center h-full">
               <p className="text-muted-foreground">
-                Select a file to view its content
+                Select a file to view its content or run a test
               </p>
             </div>
           )}

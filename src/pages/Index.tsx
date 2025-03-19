@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import FileUpload from '@/components/FileUpload';
 import FileList from '@/components/FileList';
@@ -79,12 +78,12 @@ const Index = () => {
   };
 
   const handleTestRun = (testId: string) => {
-    // This would be replaced with actual Playwright test execution logic
-    setTestRunning(true);
-    setTestUrl(testUrls[testId as keyof typeof testUrls]);
-    
     // Clear selected file when running a test
     setSelectedFileId(null);
+    
+    // Set test running and URL
+    setTestRunning(true);
+    setTestUrl(testUrls[testId as keyof typeof testUrls]);
     
     // For demo purposes, we'll stop the "test" after 30 seconds
     setTimeout(() => {
